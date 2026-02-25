@@ -1,0 +1,92 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Jkur
+ * @version 1.0
+ * @see File
+ * @see FileInputStream
+ * @see FileOutputStream
+ * @see ObjectInputStream
+ * @see ObjectOutputStream
+ * @see ArrayList
+ * @see IOException
+ */
+public class Ejer6_GestionProducto {
+
+    private ArrayList<Ejer6_Producto> listaProducto;
+
+    public Ejer6_GestionProducto() {
+        this.listaProducto = new ArrayList<>();
+    }
+
+    public void anyadirProducto(Ejer6_Producto p) {
+        listaProducto.add(p);
+        System.out.println("Anyadido correctamente");
+    }
+
+    public boolean elimanarProducto(int id) {
+        for (int i = 0; i < listaProducto.size(); i++) {
+            if (listaProducto.get(i).getId() == id) {
+                listaProducto.remove(i);
+                System.out.println("Producto con id: " + id + " se ha elimando");
+                return true;
+            }
+        }
+        System.out.println("No se ha encontrado el id");
+        return false;
+    }
+
+    public Ejer6_Producto consultarProducto(int id) {
+        for (Ejer6_Producto p : listaProducto) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Ejer6_Producto> listarProductos() {
+        return listaProducto;
+    }
+
+    public void guardarFichero(String rutaArchivo) {
+        try {
+            FileOutputStream fis = new FileOutputStream("ficheroProducto.bin");
+            ObjectOutputStream oos = new ObjectOutputStream(fis);
+
+            oos.writeObject(listaProducto);
+
+            System.out.println("Datos guardados en la ruta");
+
+        } catch (IOException e) {
+            System.out.println("Error al guardar el archivo");
+        }
+    }
+
+    public void cargarFichero(String rutaArchivo) {
+        File archivo = new File("ficheroProducto.bin");
+
+        if (!archivo.exists()) {
+            System.out.println("El archivo aun existe");
+            return;
+        }
+
+        try {
+            FileInputStream fis = new FileInputStream(archivo);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            listaProducto = (ArrayList<Ejer6_Producto>) ois.readObject();
+            System.out.println("Datos cargados correctamente");
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
+}
