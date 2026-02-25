@@ -1,0 +1,98 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Jkur
+ * @version 1.0
+ * @see ArrayList
+ * @see Scanner
+ */
+public class Ejer6_Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        Ejer6_GestionProducto gProducto = new Ejer6_GestionProducto();
+        String aDatos = "ficheroProducto.bin";
+
+        int op;
+
+        do {
+            System.out.println("1. Cargar datos de productos desde el archivo");
+            System.out.println("2. Anyadir producto");
+            System.out.println("3. Eliminar producto");
+            System.out.println("4. Consultar producto por ID");
+            System.out.println("5. Imprimir listado de productos");
+            System.out.println("6. Guardar productos en el archivo");
+            System.out.println("0. Salir");
+            System.out.print("Elige una opcion: ");
+
+            op = sc.nextInt();
+            sc.nextLine();
+
+            switch (op) {
+                case 1:
+                    gProducto.cargarFichero(aDatos);
+                    break;
+                case 2:
+                    System.out.print("Introduce el ID: ");
+                    int id = sc.nextInt();
+                    System.out.print("Introduce el Nombre: ");
+                    String nombre = sc.next();
+                    System.out.print("Introduce el Precio: ");
+                    double precio = sc.nextDouble();
+                    System.out.print("Introduce el Proveedor: ");
+                    String proveedor = sc.next();
+
+                    Ejer6_Producto nuevo = new Ejer6_Producto(id, nombre, precio, proveedor);
+                    gProducto.anyadirProducto(nuevo);
+
+                    break;
+                case 3:
+                    System.out.println("Introduce el ID que quieres eliminar: ");
+                    int idEliminar = sc.nextInt();
+
+                    gProducto.elimanarProducto(idEliminar);
+
+                    break;
+                case 4:
+                    System.out.println("Introduce el ID que quieres consultar: ");
+                    int idConsultar = sc.nextInt();
+
+                    Ejer6_Producto p = gProducto.consultarProducto(idConsultar);
+
+                    if (p != null) {
+                        System.out.println("Producto encontrado");
+                    } else {
+                        System.out.println("Producto no encontrado");
+                    }
+                    break;
+                case 5:
+                    System.out.println("Imprimiendo el listado: ");
+                    ArrayList<Ejer6_Producto> lista = gProducto.listarProductos();
+
+                    if (lista.isEmpty()) {
+                        System.out.println("No hay producto en la lista");
+                    } else {
+                        System.out.println("LISTADO DE PRODUCTOS: ");
+                        for (Ejer6_Producto proc : lista) {
+                            System.out.println(proc.toString());
+                        }
+                    }
+                    break;
+                case 6:
+                    gProducto.guardarFichero("ficheroProducto.bin");
+                    break;
+                case 0:
+                    System.out.println("Saliendo da la app, muchas gracias por su visita");
+                    break;
+
+                default:
+                    System.out.println("Opcion incorrecta: Elige de nuevo un numero (Entre 0 a 6): ");
+            }
+        } while (op != 0);
+
+    }
+
+}
