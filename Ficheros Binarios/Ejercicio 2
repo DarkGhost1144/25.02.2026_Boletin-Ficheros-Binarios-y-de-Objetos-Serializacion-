@@ -1,0 +1,30 @@
+import java.io.FileInputStream;
+
+/**
+ *
+ * @author alumno
+ * @version 1.0
+ * @see FileOutputStream
+ */
+public class Ejer2 {
+
+    public static void main(String[] args) {
+
+        try {
+            FileInputStream fis = new FileInputStream("cacionPirata.dat");
+            int tamFichero = fis.available();
+
+            byte[] leido = new byte[tamFichero];
+
+            fis.read(leido);
+
+            fis.close();
+
+            String canRecuperada = new String(leido);
+
+            System.out.println(canRecuperada.toUpperCase());
+        } catch (Exception e) {
+            System.out.println("No se ha podido leer: " + e.getMessage());
+        }
+    }
+}
