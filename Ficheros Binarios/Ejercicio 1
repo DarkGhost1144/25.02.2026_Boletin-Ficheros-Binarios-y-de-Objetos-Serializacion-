@@ -1,0 +1,31 @@
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
+/**
+ *
+ * @author alumno
+ * @version 1.0
+ * @see FileOutputStream
+ * @see PrintStream
+ */
+public class Ejer1 {
+
+    public static void main(String[] args) {
+        try {
+            FileOutputStream fos = new FileOutputStream("cancionPirata.dat");
+            PrintStream ps = new PrintStream(fos);
+
+            ps.println("Con diez cañones por banda,");
+            ps.println("Viento en popa a toda vela,");
+            ps.println("no corta el viento sino vuela,");
+            ps.println("un velero bergartin.");
+
+            fos.close();
+            ps.close();
+
+            System.out.println("Ha sido creado");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
