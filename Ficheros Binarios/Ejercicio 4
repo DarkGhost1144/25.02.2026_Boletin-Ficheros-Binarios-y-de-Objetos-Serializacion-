@@ -1,0 +1,53 @@
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+/**
+ *
+ * @author alumno
+ * @version 1.0
+ * @see DataInputStream
+ * @see File
+ * @see IOException
+ * @see FileInputStream
+ */
+public class Ejer4 {
+
+    public static void main(String[] args) {
+
+        String nombreFichero = "numeros.bin";
+        File archivo = new File(nombreFichero);
+
+        if (!archivo.exists()) {
+            System.out.println("Archvivo no existe.");
+            return;
+        }
+
+        try {
+            // Dividimos el tamaño del archivo en bytes entre 8 (lo que ocupa un double)
+            int n = (int) (archivo.length() / 8);
+
+            double[] tablaRecuperada = new double[n];
+
+            FileInputStream fis = new FileInputStream(archivo);
+            DataInputStream dis = new DataInputStream(fis);
+
+            for (int i = 0; i < tablaRecuperada.length; i++) {
+                tablaRecuperada[i] = dis.readDouble();
+            }
+
+            dis.close();
+            fis.close();
+
+            System.out.println("Numeros recuperados: " + n + " numeros del archivo:");
+
+            for (int i = 0; i < tablaRecuperada.length; i++) {
+                System.out.println("Posicion " + i + " -> " + tablaRecuperada[i]);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
+}
