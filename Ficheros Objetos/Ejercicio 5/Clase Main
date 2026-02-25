@@ -1,0 +1,61 @@
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author Jkur
+ * @version 1.0
+ * @see EOFException
+ * @see FileInputStream
+ * @see FileOutputStream
+ * @see ObjectInputStream
+ * @see ObjectOutputStream
+ * @see ArrayList
+ * @see List
+ * @see IOException
+ */
+public class Ejer5_Main {
+
+    public static void main(String[] args) {
+        Ejer5_Socio p1 = new Ejer5_Socio("12345678A", "Kuba");
+        Ejer5_Socio p2 = new Ejer5_Socio("15975328B", "Agustin");
+        Ejer5_Socio p3 = new Ejer5_Socio("87654321h", "MArio");
+
+        List<Ejer5_Socio> listaSocio = new ArrayList();
+
+        listaSocio.add(p1);
+        listaSocio.add(p2);
+        listaSocio.add(p3);
+
+        try {
+            FileOutputStream fos = new FileOutputStream("ficheroPersona.bin");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            for (Ejer5_Socio p : listaSocio) {
+                oos.writeObject(p);
+            }
+
+            oos.close();
+            fos.close();
+
+            FileInputStream fis = new FileInputStream("ficheroPersona.bin");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            while (true) {
+                Ejer5_Socio p = (Ejer5_Socio) ois.readObject();
+                System.out.println(p.toString());
+            }
+
+        } catch (EOFException eofe) {
+            System.err.println("Fin del fichero");
+        } catch (IOException | ClassNotFoundException ioe) {
+            System.err.println(ioe.getMessage());
+        }
+    }
+}
